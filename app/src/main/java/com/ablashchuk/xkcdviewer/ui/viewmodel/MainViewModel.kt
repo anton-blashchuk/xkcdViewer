@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-/** @author Blashchuk Anton */
+/** [ViewModel] for the [com.ablashchuk.xkcdviewer.ui.view.MainScreen]. Takes in [ComicRepository] to
+ * operate, so is a bit trickier to instantiate than usual "val viewModel: MainViewModel by viewModels()"
+ * @author Blashchuk Anton */
 class MainViewModel(private val repository: ComicRepository) : ViewModel() {
 
     private val _comic = MutableStateFlow<Comic?>(null)
@@ -19,12 +21,15 @@ class MainViewModel(private val repository: ComicRepository) : ViewModel() {
     private val _isFavorite = MutableStateFlow<Boolean>(false)
     private val isFavorite: StateFlow<Boolean> = _isFavorite.asStateFlow()
 
+    /** Index of comic we are showing now */
     private var currentIndex: Int? = null
+    /** Index of most recently published comic */
     private var lastIndex: Int? = null
 
 
     init {
         viewModelScope.launch {
+            //if there are favorites we immediately know some last index(although it would most likely be smaller than actual)
             lastIndex = repository.getFavorites().maxOfOrNull { favorite -> favorite.num }
             loadStartingComic()
         }
@@ -51,7 +56,7 @@ class MainViewModel(private val repository: ComicRepository) : ViewModel() {
         }
     }
 
-    fun randomAvailable() = (lastIndex ?: 1) > 1 //last is available, we know the end of range
+    fun randomAvailable() = (lastIndex ?: 1) > 1 //last is available, so we know the end of range for random
 
     fun random() {
         lastIndex?.also {

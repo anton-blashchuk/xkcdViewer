@@ -1,35 +1,35 @@
 package com.ablashchuk.xkcdviewer.data.repository
 
-import com.ablashchuk.xkcdviewer.data.datasource.LocalDataSource
-import com.ablashchuk.xkcdviewer.data.datasource.RemoteDataSource
+import com.ablashchuk.xkcdviewer.data.datasource.LocalComicDataSource
+import com.ablashchuk.xkcdviewer.data.datasource.RemoteComicDataSource
 import com.ablashchuk.xkcdviewer.data.model.Comic
 
 /** @author Blashchuk Anton */
 class ComicRepository(
-    private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource
+    private val remoteComicDataSource: RemoteComicDataSource,
+    private val localComicDataSource: LocalComicDataSource
 ) {
     suspend fun getComic(num: Int): Comic {
-        return remoteDataSource.fetchComic(num)
+        return remoteComicDataSource.fetchComic(num)
     }
 
     suspend fun getLastComic(): Comic {
-        return remoteDataSource.fetchLastComic()
+        return remoteComicDataSource.fetchLastComic()
     }
 
     suspend fun favoriteComic(comic: Comic) {
-        localDataSource.saveFavorite(comic)
+        localComicDataSource.saveFavorite(comic)
     }
 
     suspend fun unfavoriteComic(comic: Comic) {
-        localDataSource.removeFavorite(comic)
+        localComicDataSource.removeFavorite(comic)
     }
 
     suspend fun isFavorite(num: Int): Boolean {
-        return localDataSource.getFavorite(num) != null
+        return localComicDataSource.getFavorite(num) != null
     }
 
     suspend fun getFavorites(): List<Comic> {
-        return localDataSource.getAllFavorites()
+        return localComicDataSource.getAllFavorites()
     }
 }
