@@ -30,6 +30,8 @@ class MainViewModel(private val repository: ComicRepository) : ViewModel() {
         }
     }
 
+    fun nextAvailable() = (lastIndex ?: 0) - (currentIndex ?: 1) > 0 // last is known and current is known and lesser
+
     fun next() {
         val curIndex = currentIndex!!
         val maxIndex = lastIndex!!
@@ -39,6 +41,8 @@ class MainViewModel(private val repository: ComicRepository) : ViewModel() {
         }
     }
 
+    fun previousAvailable() = (currentIndex ?: 1) > 1 //current is not null and not "first"
+
     fun previous() {
         val curIndex = currentIndex!!
         if ((curIndex) > 1) {
@@ -47,12 +51,16 @@ class MainViewModel(private val repository: ComicRepository) : ViewModel() {
         }
     }
 
+    fun randomAvailable() = (lastIndex ?: 1) > 1 //last is available, we know the end of range
+
     fun random() {
         lastIndex?.also {
             currentIndex = Random.nextInt(it)
             loadComic()
         }
     }
+
+    fun firstAvailable() = previousAvailable()
 
     fun first() {
         if (currentIndex == 1) {
@@ -61,6 +69,8 @@ class MainViewModel(private val repository: ComicRepository) : ViewModel() {
         currentIndex = 1
         loadComic()
     }
+
+    fun lastAvailable() = nextAvailable()
 
     fun last() {
         lastIndex?.also {

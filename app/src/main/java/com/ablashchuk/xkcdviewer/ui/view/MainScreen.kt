@@ -25,19 +25,29 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
     ) {
         Row {
             SimpleButton(
-                text = "|<", onClick = { viewModel.first() }
+                text = "|<",
+                onClick = { viewModel.first() },
+                enabled = viewModel.firstAvailable()
             )
             SimpleButton(
-                text = "<Prev", onClick = { viewModel.previous() }
+                text = "<Prev",
+                onClick = { viewModel.previous() },
+                enabled = viewModel.previousAvailable()
             )
             SimpleButton(
-                text = "Random", onClick = { viewModel.random() }
+                text = "Random",
+                onClick = { viewModel.random() },
+                enabled = viewModel.randomAvailable()
             )
             SimpleButton(
-                text = "Next>", onClick = { viewModel.next() }
+                text = "Next>",
+                onClick = { viewModel.next() },
+                enabled = viewModel.nextAvailable()
             )
             SimpleButton(
-                text = ">|", onClick = { viewModel.last() },
+                text = ">|",
+                onClick = { viewModel.last() },
+                enabled = viewModel.lastAvailable()
             )
         }
 
@@ -61,7 +71,8 @@ fun SimpleButton(
     modifier: Modifier = Modifier, text: String, onClick: () -> Unit = {}, enabled: Boolean = true
 ) {
     Button(
-        modifier = Modifier.padding(4.dp)
+        modifier = Modifier
+            .padding(4.dp)
             .then(modifier),
         contentPadding = PaddingValues(4.dp),
         onClick = onClick,
