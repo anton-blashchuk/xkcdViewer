@@ -53,9 +53,6 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
             )
         }
 
-
-        Spacer(modifier = Modifier.height(24.dp))
-
         imageUrl?.let {
             val zoomableState = rememberZoomableState(
                 zoomSpec = ZoomSpec(minZoomFactor = 1f, maxZoomFactor = 4f)
@@ -67,7 +64,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
                 alignment = Alignment.TopCenter,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(start = 16.dp, end = 16.dp)
 
             )
         } ?: Text("Loading or failed to load image")
