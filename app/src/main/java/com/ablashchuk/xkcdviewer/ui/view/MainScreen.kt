@@ -1,7 +1,6 @@
 package com.ablashchuk.xkcdviewer.ui.view
 
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,8 +10,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberAsyncImagePainter
 import com.ablashchuk.xkcdviewer.ui.viewmodel.MainViewModel
+import me.saket.telephoto.zoomable.ZoomSpec
+import me.saket.telephoto.zoomable.coil.ZoomableAsyncImage
+import me.saket.telephoto.zoomable.rememberZoomableImageState
+import me.saket.telephoto.zoomable.rememberZoomableState
 
 @Composable
 fun MainScreen(viewModel: MainViewModel = viewModel()) {
@@ -55,12 +57,18 @@ fun MainScreen(viewModel: MainViewModel = viewModel()) {
         Spacer(modifier = Modifier.height(24.dp))
 
         imageUrl?.let {
-            Image(
-                painter = rememberAsyncImagePainter(it.img),
+            val zoomableState = rememberZoomableState(
+                zoomSpec = ZoomSpec(minZoomFactor = 1f, maxZoomFactor = 4f)
+            )
+            ZoomableAsyncImage(
+                model = it.img,
                 contentDescription = "Comic",
+                state = rememberZoomableImageState(zoomableState),
+                alignment = Alignment.TopCenter,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
+                    .fillMaxSize()
+                    .padding(16.dp)
+
             )
         } ?: Text("Loading or failed to load image")
     }
