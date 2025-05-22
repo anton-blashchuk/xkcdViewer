@@ -1,5 +1,5 @@
 My work on https://github.com/shortcut/coding-assignment-mobile . <br>
-This is still a work-in-progress due to lack of time. At current stage this is somewhere between PoC and MVP - need more testing and error handling
+This is still a work-in-progress due to lack of spare time for it. At current stage this is somewhere between PoC and MVP - need more testing and error handling
 <br>
 #### What is done:
   1. Basic MVVM/Clean architecture
